@@ -644,6 +644,10 @@ impl<T: Config> P2PSession<T> {
         requests: &mut Vec<GgrsRequest<T>>,
     ) {
         let current_frame = self.sync_layer.current_frame();
+        if current_frame == first_incorrect {
+            // Nothing to do. We are already at the first incorrect frame.
+            return;
+        }
         // determine the frame to load
         let frame_to_load = if self.sparse_saving {
             // if sparse saving is turned on, we will rollback to the last saved state
